@@ -1,0 +1,27 @@
+<div class="header">
+    <h1>Health Monitor for Disease Prevention</h1>
+</div>
+
+<div class="dashboard-container">
+    <div class="section patient-overview">
+        <h2>Patient Dashboard - {{ patientInfo.name }}</h2>
+    </div>
+
+    <div class="section past-illnesses">
+        <h3>Past Illnesses</h3>
+        <ul>
+            <p>{{ patientInfo.pastIllnesses }}</p>
+            <p><li *ngFor="let illness of patientInfo.pastIllnesses">{{ illness }}</li></p>
+        </ul>
+    </div>
+
+    <div class="section lab-results">
+        <h3>Recent Lab Results</h3>
+        <p><strong>Blood Sugar:</strong> {{ patientInfo.labResults.bloodSugar }}</p>
+    </div>
+
+    <div class="section lab-interpretation">
+        <h3>Lab Interpretation</h3>
+        <p>{{ patientInfo.labInterpretation }}</p>
+    </div>
+</div>
