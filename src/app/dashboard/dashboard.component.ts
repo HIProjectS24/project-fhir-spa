@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FhirService } from '../services/fhir.service';
+import { FhirService } from '../fhir.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
+  providers: [FhirService] 
 })
 export class DashboardComponent implements OnInit {
 
