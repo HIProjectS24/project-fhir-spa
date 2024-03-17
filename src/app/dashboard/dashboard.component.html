@@ -2,26 +2,28 @@
     <h1>Health Monitor for Disease Prevention</h1>
 </div>
 
-<div class="dashboard-container">
-    <div class="section patient-overview">
-        <h2>Patient Dashboard - {{ patientInfo.name }}</h2>
-    </div>
-
-    <div class="section past-illnesses">
-        <h3>Past Illnesses</h3>
+<div *ngIf="patientsData && patientsData.length">
+    <h2>All Patients</h2>
+    <div *ngFor="let patient of patientsData" class="patient-card">
+      <h3>Patient Details</h3>
+      <!-- Patient details here -->
+  
+      <div *ngIf="patient.conditions?.length">
+        <h4>Medical Conditions</h4>
         <ul>
-            <p>{{ patientInfo.pastIllnesses }}</p>
-            <p><li *ngFor="let illness of patientInfo.pastIllnesses">{{ illness }}</li></p>
+          <li *ngFor="let condition of patient.conditions">
+            {{ condition.code?.text }} (Recorded: {{ condition.recordedDate | date }})
+          </li>
         </ul>
+      </div>
+  
+      <div *ngIf="patient.observations?.length">
+        <h4>Test Results</h4>
+        <ul>
+          <li *ngFor="let observation of patient.observations">
+            {{ observation.code?.text }}: {{ observation.valueQuantity?.value }} {{ observation.valueQuantity?.unit }}
+          </li>
+        </ul>
+      </div>
     </div>
-
-    <div class="section lab-results">
-        <h3>Recent Lab Results</h3>
-        <p><strong>Blood Sugar:</strong> {{ patientInfo.labResults.bloodSugar }}</p>
-    </div>
-
-    <div class="section lab-interpretation">
-        <h3>Lab Interpretation</h3>
-        <p>{{ patientInfo.labInterpretation }}</p>
-    </div>
-</div>
+  </div>

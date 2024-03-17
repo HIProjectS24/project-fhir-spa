@@ -16,8 +16,8 @@ export class PatientProfileComponent implements OnInit {
   constructor(private fhirService: FhirService) {}
 
   ngOnInit() {
-  this.fhirService.getPatientData('some-patient-id').subscribe((data: PatientProfile) => {
-    this.patientProfile = data;
-  });
+    this.fhirService.getAllPatients().subscribe((data) => {
+      // your logic here...
+    });
   }
 }

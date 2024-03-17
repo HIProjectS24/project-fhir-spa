@@ -1,19 +1,61 @@
+
 import { Component, OnInit } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule} from '@angular/common';
 import { FhirService } from '../fhir.service';
+
+@Component({
+  selector: 'app-dashboard',
+  standalone: true,
+  imports: [CommonModule, HttpClientModule],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css'
+})
+export class DashboardComponent implements OnInit {
+
+  patientsData: any[] = [];
+
+  constructor(private fhirService: FhirService) {}
+
+  ngOnInit() {
+    this.fhirService.getAllPatients().subscribe(data => {
+      this.patientsData = data.entry?.map((e: any) => e.resource) || [];
+      this.patientsData.forEach(patient => {
+        this.fhirService.getAllPatientConditions(patient.id).subscribe(condResponse => {
+          patient.conditions = condResponse.entry?.map((e: any) => e.resource) || [];
+        });
+  
+        this.fhirService.getAllPatientObservations(patient.id).subscribe(obsResponse => {
+          patient.observations = obsResponse.entry?.map((e: any) => e.resource) || [];
+        });
+      });
+    }, error => {
+      console.error('Error fetching patient data:', error);
+    });
+  }
+
+}
+
+// test id 1 : 1693203
+// test id 2 : 1316024
+// test id 3 : 1186747
+
+
+
+/*
+
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
-  providers: [FhirService] 
+  styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-
-  /*
   patientInfo = {
-    name: 'Jane Doe',
+    name: 'Mary Jones',
     pastIllnesses: [
       'Flu in 2019',
       ' Sprained ankle in 2020',
@@ -29,18 +71,6 @@ export class DashboardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-  */ 
-
-  patientData: any; // Adjust type based on your data structure
-
-  constructor(private fhirService: FhirService) {}
-
-  ngOnInit() {
-    this.fhirService.getPatientData('example-patient-id').subscribe(data => {
-      this.patientData = data;
-    }, (error: any) => {
-      console.error('Error fetching patient data:', error);
-    });
-  }
-
 }
+
+*/

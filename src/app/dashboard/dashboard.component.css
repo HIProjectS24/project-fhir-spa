@@ -62,3 +62,15 @@ p {
 li {
     padding: 5px 0;
 }
+
+.patient-card {
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.patient-card h3 {
+    margin-top: 0;
+}
