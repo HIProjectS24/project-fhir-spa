@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FhirService } from '../services/fhir.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
+
+  /*
   patientInfo = {
     name: 'Jane Doe',
     pastIllnesses: [
@@ -25,4 +28,18 @@ export class DashboardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+  */ 
+
+  patientData: any; // Adjust type based on your data structure
+
+  constructor(private fhirService: FhirService) {}
+
+  ngOnInit() {
+    this.fhirService.getPatientData('example-patient-id').subscribe(data => {
+      this.patientData = data;
+    }, (error: any) => {
+      console.error('Error fetching patient data:', error);
+    });
+  }
+
 }
