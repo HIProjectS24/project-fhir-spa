@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule} from '@angular/common';
 import { FhirService } from '../fhir.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',

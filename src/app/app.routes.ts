@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PatientProfileComponent } from './patient-profile/patient-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
-import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -18,7 +16,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [BrowserModule, RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes), HttpClientModule],
     exports: [RouterModule]
-  })
-  export class AppRoutingModule { }
+})
+export class AppRoutingModule { }
