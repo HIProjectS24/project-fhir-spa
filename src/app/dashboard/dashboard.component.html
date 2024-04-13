@@ -1,29 +1,31 @@
 <div class="header">
-    <h1>Health Monitor for Disease Prevention</h1>
+  <h1>Health Monitor for Disease Prevention</h1>
 </div>
 
 <div *ngIf="patientsData && patientsData.length">
-    <h2>All Patients</h2>
-    <div *ngFor="let patient of patientsData" class="patient-card">
-      <h3>Patient Details</h3>
-      <!-- Patient details here -->
-  
-      <div *ngIf="patient.conditions?.length">
-        <h4>Medical Conditions</h4>
-        <ul>
-          <li *ngFor="let condition of patient.conditions">
-            {{ condition.code?.text }} (Recorded: {{ condition.recordedDate | date }})
-          </li>
-        </ul>
-      </div>
-  
-      <div *ngIf="patient.observations?.length">
-        <h4>Test Results</h4>
-        <ul>
-          <li *ngFor="let observation of patient.observations">
-            {{ observation.code?.text }}: {{ observation.valueQuantity?.value }} {{ observation.valueQuantity?.unit }}
-          </li>
-        </ul>
-      </div>
+  <h2>All Patients</h2>
+  <div *ngFor="let patient of patientsData" class="patient-card">
+    <h3>Patient Details</h3>
+    <!-- Example patient details -->
+    <p>Name: {{ patient.name }}</p> <!-- Adjust according to your data structure -->
+    <p>ID: {{ patient.id }}</p>
+
+    <div *ngIf="patient.conditions?.length">
+      <h4>Medical Conditions</h4>
+      <ul>
+        <li *ngFor="let condition of patient.conditions">
+          {{ condition.code?.text }} (Recorded: {{ condition.recordedDate | date:'mediumDate' }})
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="patient.observations?.length">
+      <h4>Test Results</h4>
+      <ul>
+        <li *ngFor="let observation of patient.observations">
+          {{ observation.code?.text }}: {{ observation.valueQuantity?.value }} {{ observation.valueQuantity?.unit }}
+        </li>
+      </ul>
     </div>
   </div>
+</div>

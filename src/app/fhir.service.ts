@@ -1,45 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { from, Observable, switchMap } from 'rxjs';
+import { oauth2 as smart } from 'fhirclient';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FhirService {
-  private fhirApiUrl = 'http://hapi.fhir.org/baseR4';
+  private clientReady: Promise<any>;  // Store the promise for the ready client
 
-  constructor(private http: HttpClient) {}
-
-  getAllPatients(): Observable<any> {
-    const url = `${this.fhirApiUrl}/Patient`;
-    return this.http.get(url).pipe(
-      tap(data => console.log('Fetched data:', data)), // Add this line for debugging
-      catchError(error => {
-        console.error('Error fetching data:', error);
-        return throwError(error);
-      })
-    );
+  constructor() {
+    this.clientReady = smart.authorize({
+      clientId: '210df7b6-2852-4a15-9e40-b58939096628',  // Replace with your actual client ID from your FHIR server
+      scope: 'launch profile openid online_access patient/Patient.read patient/MedicationRequest.* patient/Observation.read',  // Adjust scopes as necessary
+      redirectUri: 'http://localhost:4200/',  // Make sure this URI is registered with your FHIR server
+      iss: 'https://your-fhir-server-url'  // Replace with your FHIR server URL
+    });
   }
 
-  getAllPatientConditions(patientId: string): Observable<any> {
-    const url = `${this.fhirApiUrl}/Condition?patient=${patientId}`;
-    return this.http.get(url).pipe(
-      tap(data => console.log('Fetched data:', data)), // Add this line for debugging
-      catchError(error => {
-        console.error('Error fetching data:', error);
-        return throwError(error);
-      })
-    );
-  }
-  
-  getAllPatientObservations(patientId: string): Observable<any> {
-    const url = `${this.fhirApiUrl}/Observation?patient=${patientId}`;
-    return this.http.get(url).pipe(
-      tap(data => console.log('Fetched data:', data)), // Add this line for debugging
-      catchError(error => {
-        console.error('Error fetching data:', error);
-        return throwError(error);
-      })
+  public getAllPatients(): Observable<any> {
+    return from(this.clientReady).pipe(
+      switchMap(client => client.request("Patient"))
     );
   }
 }
